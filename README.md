@@ -1,5 +1,7 @@
 # Next-Gen Resume Builder ✨
 
+> *I couldn't find a truly premium, professional, and free resume builder out there—so I decided to build one myself.*
+
 A modern, dynamic, AI-powered Resume Builder application crafted with React, Vite, Tailwind CSS, Zustand, and Firebase.
 
 ## 🚀 Live Demo
