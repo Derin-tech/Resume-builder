@@ -1,0 +1,24 @@
+[31mâœ—[39m Build failed in 881ms
+[31merror during build:
+[31mBuild failed with 1 error:
+
+[plugin vite:css] C:/Users/ASUS/resume builder/src/index.css:undefined:NaN
+Error: [postcss] It looks like you're trying to use `tailwindcss` directly as a PostCSS plugin. The PostCSS plugin has moved to a separate package, so to continue using Tailwind CSS with PostCSS you'll need to install `@tailwindcss/postcss` and update your PostCSS configuration.
+    at at (C:\Users\ASUS\resume builder\node_modules\tailwindcss\dist\lib.js:38:1643)
+    at LazyResult.runOnRoot (C:\Users\ASUS\resume builder\node_modules\postcss\lib\lazy-result.js:361:16)
+    at LazyResult.runAsync (C:\Users\ASUS\resume builder\node_modules\postcss\lib\lazy-result.js:290:26)
+    at async runPostCSS (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:21003:19)
+    at async compilePostCSS (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:20987:6)
+    at async compileCSS (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:20917:26)
+    at async TransformPluginContextImpl.handler (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:20433:47)
+    at async plugin (file:///C:/Users/ASUS/resume%20builder/node_modules/rolldown/dist/shared/bindingify-input-options-DYpBf1OG.mjs:1172:16)
+    at async plugin.<computed> (file:///C:/Users/ASUS/resume%20builder/node_modules/rolldown/dist/shared/bindingify-input-options-DYpBf1OG.mjs:1636:12)[31m
+    at aggregateBindingErrorsIntoJsError (file:///C:/Users/ASUS/resume%20builder/node_modules/rolldown/dist/shared/error-w0u7biK-.mjs:48:18)
+    at unwrapBindingResult (file:///C:/Users/ASUS/resume%20builder/node_modules/rolldown/dist/shared/error-w0u7biK-.mjs:18:128)
+    at #build (file:///C:/Users/ASUS/resume%20builder/node_modules/rolldown/dist/shared/rolldown-build-DtGk-m96.mjs:3313:34)
+    at async buildEnvironment (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:32954:64)
+    at async Object.build (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:33376:19)
+    at async Object.buildApp (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/chunks/node.js:33373:153)
+    at async CAC.<anonymous> (file:///C:/Users/ASUS/resume%20builder/node_modules/vite/dist/node/cli.js:778:3) {
+  errors: [Getter/Setter]
+}[39m
