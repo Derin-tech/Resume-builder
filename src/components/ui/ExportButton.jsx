@@ -25,7 +25,7 @@ export default function ExportButton({ className }) {
   const configs = {
     idle: {
       icon: <DownloadIcon size={14} />,
-      text: 'Export PDF',
+      text: <><span className="hidden md:inline">Export PDF</span><span className="md:hidden">PDF</span></>,
       className: 'bg-brand-500 hover:bg-brand-600 text-white',
     },
     loading: {

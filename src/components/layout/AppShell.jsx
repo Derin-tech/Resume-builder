@@ -1,26 +1,81 @@
-import React, { useState } from 'react';
-import Header from './Header';
-import { EyeIcon, XIcon } from 'lucide-react';
+import { useState } from 'react'
+import Header from './Header'
+import EditorPane from './EditorPane'
+import PreviewPane from './PreviewPane'
+import { EyeIcon, PencilIcon } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-export default function AppShell({ children }) {
-  const [previewOpen, setPreviewOpen] = useState(false);
+export default function AppShell() {
+  const [mobileView, setMobileView] = useState('editor')
+
   return (
-    <div className="min-h-screen bg-surface-50 text-surface-900 font-sans">
+    <div className="flex flex-col h-screen overflow-hidden bg-surface-50">
       <Header />
-      <main id="main-layout" className="pt-14 h-screen flex flex-col md:flex-row">
-        {React.Children.map(children, child => {
-          if (child.type.name === 'EditorPane') return <div className="editor-pane-mobile">{child}</div>
-          if (child.type.name === 'PreviewPane') return <div className={`preview-pane-mobile ${previewOpen ? 'open' : ''}`}>{child}</div>
-          return child;
-        })}
-      </main>
 
-      <button
-        onClick={() => setPreviewOpen(!previewOpen)}
-        className="mobile-preview-btn fixed bottom-6 right-6 z-50 bg-brand-500 text-white rounded-full w-14 h-14 shadow-float items-center justify-center"
-      >
-        {previewOpen ? <XIcon size={22} /> : <EyeIcon size={22} />}
-      </button>
+      <div className="flex flex-1 overflow-hidden pt-14">
+        
+        {/* DESKTOP: both panes side by side */}
+        <div className="hidden md:flex flex-1 overflow-hidden">
+          <EditorPane />
+          <PreviewPane />
+        </div>
+
+        {/* MOBILE: one pane at a time */}
+        <div className="flex flex-col flex-1 overflow-hidden md:hidden">
+          <AnimatePresence mode="wait">
+            {mobileView === 'editor' ? (
+              <motion.div
+                key="editor"
+                className="flex-1 overflow-hidden"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <EditorPane mobile />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="preview"
+                className="flex-1 overflow-hidden"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.2 }}
+              >
+                <PreviewPane mobile />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* MOBILE BOTTOM TAB BAR */}
+          <div className="flex border-t border-surface-200 bg-white safe-area-pb">
+            <button
+              onClick={() => setMobileView('editor')}
+              className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors
+                ${mobileView === 'editor'
+                  ? 'text-brand-600'
+                  : 'text-surface-400'}`}
+            >
+              <PencilIcon size={18} />
+              Edit
+              {mobileView === 'editor' && (
+                <div className="absolute bottom-0 w-12 h-0.5 bg-brand-500 rounded-full" />
+              )}
+            </button>
+            <button
+              onClick={() => setMobileView('preview')}
+              className={`flex-1 flex flex-col items-center gap-1 py-3 text-xs font-medium transition-colors
+                ${mobileView === 'preview'
+                  ? 'text-brand-600'
+                  : 'text-surface-400'}`}
+            >
+              <EyeIcon size={18} />
+              Preview
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  );
+  )
 }

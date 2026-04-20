@@ -19,7 +19,7 @@ const TABS = [
   { id: 'ats',        label: 'ATS',        icon: TargetIcon }
 ];
 
-export default function WizardTabs() {
+export default function WizardTabs({ mobile }) {
   const [activeTab, setActiveTab] = useState('contact');
 
   const activeIndex = TABS.findIndex(t => t.id === activeTab);
@@ -31,7 +31,7 @@ export default function WizardTabs() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="flex border-b border-surface-200 bg-white sticky top-0 z-10">
+      <div className={`flex border-b border-surface-200 bg-white sticky top-0 z-10 ${mobile ? 'overflow-x-auto scrollbar-none' : ''}`}>
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
@@ -39,11 +39,12 @@ export default function WizardTabs() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-1 flex flex-col items-center gap-0.5 py-3 px-1 text-xs font-medium transition-all duration-200 relative ${
-                isActive ? 'text-brand-600' : 'text-surface-400 hover:text-surface-600'
-              }`}
+              className={`flex flex-col items-center gap-0.5 py-3 border-none bg-transparent cursor-pointer font-medium transition-all duration-200 relative whitespace-nowrap
+                ${mobile ? 'px-4 text-[10px]' : 'flex-1 px-1 text-xs'}
+                ${isActive ? 'text-brand-600' : 'text-surface-400 hover:text-surface-600'}
+              `}
             >
-              <Icon size={16} />
+              <Icon size={15} />
               <span>{tab.label}</span>
               {isActive && (
                 <motion.div

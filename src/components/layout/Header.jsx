@@ -26,17 +26,17 @@ export default function Header() {
         <select 
           value={activeTemplate}
           onChange={(e) => setTemplate(e.target.value)}
-          className="bg-white/10 border-white/20 text-white rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-brand-500 cursor-pointer"
+          className="hidden md:block bg-white/10 border-white/20 text-white rounded-lg px-2 py-1 text-sm focus:outline-none focus:border-brand-500 cursor-pointer"
         >
           <option value="modern" className="text-black">Modern</option>
           <option value="classic" className="text-black">Classic</option>
         </select>
 
-        <button className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border transition-all ${isSaving ? 'border-amber-400/50 text-amber-300' : 'border-green-400/50 text-green-300'}`}>
+        <button className={`flex items-center gap-1.5 text-xs px-2 md:px-3 py-1.5 rounded-lg border transition-all ${isSaving ? 'border-amber-400/50 text-amber-300' : 'border-green-400/50 text-green-300'}`}>
           {isSaving ? (
-            <><Loader2Icon size={12} className="animate-spin" /> Saving...</>
+            <><Loader2Icon size={12} className="animate-spin" /><span className="hidden md:inline ml-1">Saving...</span></>
           ) : (
-            <><span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span> Saved {timeAgo}</>
+            <><span className="w-1.5 h-1.5 rounded-full bg-green-400 inline-block"></span><span className="hidden md:inline ml-1">Saved {timeAgo}</span></>
           )}
         </button>
 
@@ -64,8 +64,8 @@ export default function Header() {
             onClick={() => setAuthModalOpen(true)}
             className="flex items-center bg-white/10 text-white hover:bg-white/20 border border-white/20 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors"
           >
-            <UserIcon className="w-4 h-4 mr-2" />
-            Sign In
+            <UserIcon className="w-4 h-4" />
+            <span className="hidden md:inline ml-1.5">Sign In</span>
           </button>
         )}
       </div>
