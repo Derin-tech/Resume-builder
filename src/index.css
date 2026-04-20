@@ -90,3 +90,33 @@
 @media (min-width: 769px) {
   .mobile-preview-btn { display: none; }
 }
+
+/* Hide scrollbar on mobile tab bar */
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* Safe area for iOS bottom bar */
+.safe-area-pb {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Mobile paper zoom */
+@media (max-width: 768px) {
+  .a4-page {
+    width: 210mm !important;
+  }
+}
+
+/* Prevent body scroll on mobile */
+@media (max-width: 768px) {
+  body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+  }
+}
