@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { improveText } from '../../lib/claudeApi'
 import { Sparkles as SparklesIcon, Loader2 as Loader2Icon, Check as CheckIcon, X as XIcon, RefreshCw as RefreshCwIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import BeforeAfterSlider from './BeforeAfterSlider'
 
 export default function AIWritingAssistant({ originalText, context, onAccept, onClose }) {
   const [status, setStatus] = useState('idle')
@@ -59,19 +60,7 @@ export default function AIWritingAssistant({ originalText, context, onAccept, on
 
       {status === 'done' && result && (
         <div className="space-y-3">
-          <div>
-            <p className="text-[10px] font-semibold text-surface-400 uppercase tracking-wide mb-1">Original</p>
-            <p className="text-xs text-surface-500 bg-surface-50 rounded-lg p-2.5 line-through decoration-surface-300">
-              {originalText}
-            </p>
-          </div>
-          
-          <div>
-            <p className="text-[10px] font-semibold text-green-600 uppercase tracking-wide mb-1">Improved ✦</p>
-            <p className="text-xs text-surface-800 bg-green-50 border border-green-200 rounded-lg p-2.5">
-              {result.improved}
-            </p>
-          </div>
+          <BeforeAfterSlider before={originalText} after={result.improved} />
 
           {result.changes && result.changes.length > 0 && (
             <div>

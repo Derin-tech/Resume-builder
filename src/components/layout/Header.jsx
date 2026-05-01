@@ -9,6 +9,7 @@ import AuthModal from '../auth/AuthModal';
 import ExportButton from '../ui/ExportButton';
 import DarkModeToggle from '../ui/DarkModeToggle';
 import { useUIStore } from '../../store/useUIStore';
+import CoverLetterGenerator from '../ai/CoverLetterGenerator';
 
 export default function Header() {
   const { activeTemplate, setTemplate, isSaving, lastSaved } = useResumeStore();
@@ -62,6 +63,8 @@ export default function Header() {
         </button>
 
         <DarkModeToggle />
+
+        <CoverLetterGenerator />
 
         <ExportButton />
 

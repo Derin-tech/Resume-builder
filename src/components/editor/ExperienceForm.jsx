@@ -10,6 +10,7 @@ import AIWritingAssistant from '../ai/AIWritingAssistant';
 import Input from '../ui/Input';
 import Textarea from '../ui/Textarea';
 import Button from '../ui/Button';
+import JobTitleSuggestions from '../ai/JobTitleSuggestions';
 
 function ExperienceCard({ item, onUpdate, onRemove }) {
   const [showAI, setShowAI] = useState(false);
@@ -44,13 +45,16 @@ function ExperienceCard({ item, onUpdate, onRemove }) {
       </div>
 
       <div className="space-y-3 relative z-10">
-        <Input
-          label="Job Title"
-          id={`title-${item.id}`}
-          placeholder="Senior Software Engineer"
-          value={item.jobTitle}
-          onChange={(e) => onUpdate(item.id, 'jobTitle', e.target.value)}
-        />
+        <div className="relative">
+          <Input
+            label="Job Title"
+            id={`title-${item.id}`}
+            placeholder="Senior Software Engineer"
+            value={item.jobTitle}
+            onChange={(e) => onUpdate(item.id, 'jobTitle', e.target.value)}
+          />
+          <JobTitleSuggestions value={item.jobTitle} onSelect={(title) => onUpdate(item.id, 'jobTitle', title)} />
+        </div>
         <Input
           label="Company"
           id={`company-${item.id}`}

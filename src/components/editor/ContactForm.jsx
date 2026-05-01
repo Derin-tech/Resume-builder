@@ -1,6 +1,7 @@
 import React from 'react';
 import Input from '../ui/Input';
 import { useResumeStore } from '../../store/useResumeStore';
+import LinkedInImport from '../ai/LinkedInImport';
 
 export default function ContactForm() {
   const { resumeData: { contact }, updateContact } = useResumeStore();
@@ -10,6 +11,10 @@ export default function ContactForm() {
       <div>
         <h2 className="text-base font-semibold text-surface-900 mb-1">Contact Information</h2>
         <p className="text-xs text-surface-400 mb-5">This appears at the top of your resume</p>
+      </div>
+
+      <div className="flex justify-end mb-4">
+        <LinkedInImport />
       </div>
 
       <Input

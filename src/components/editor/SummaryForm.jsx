@@ -1,6 +1,7 @@
 import React from 'react';
 import Textarea from '../ui/Textarea';
 import { useResumeStore } from '../../store/useResumeStore';
+import AISummaryGenerator from '../ai/AISummaryGenerator';
 
 export default function SummaryForm() {
   const { resumeData: { summary }, updateSummary } = useResumeStore();
@@ -20,6 +21,8 @@ export default function SummaryForm() {
         value={summary}
         onChange={(e) => updateSummary(e.target.value)}
       />
+      
+      <AISummaryGenerator onAccept={(text) => updateSummary(text)} />
       
       <p className={`text-xs mt-2 text-right ${isOverLimit ? 'text-red-400' : 'text-surface-400'}`}>
         {summary.length} / 600 characters
