@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { FileText, User as UserIcon, Loader2 as Loader2Icon, Printer as PrinterIcon } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -16,7 +17,12 @@ export default function Header() {
   useAutoSave();
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-14 bg-[#1e293b] border-b border-white/10 flex items-center justify-between px-6">
+    <motion.header
+      initial={{ y: -56, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
+      className="fixed top-0 left-0 right-0 z-50 h-14 bg-[#1e293b] border-b border-white/10 flex items-center justify-between px-6"
+    >
       <div className="flex items-center gap-2">
         <FileText className="w-5 h-5 text-brand-300" />
         <span className="font-semibold text-white">ResumeBuilder</span>
@@ -71,6 +77,6 @@ export default function Header() {
       </div>
 
       <AuthModal isOpen={authModalOpen} onClose={() => setAuthModalOpen(false)} />
-    </header>
+    </motion.header>
   );
 }

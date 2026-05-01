@@ -31,12 +31,23 @@ export default function WizardTabs({ mobile }) {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className={`flex border-b border-surface-200 bg-white sticky top-0 z-10 ${mobile ? 'overflow-x-auto scrollbar-none' : ''}`}>
+      <motion.div 
+        className={`flex border-b border-surface-200 bg-white sticky top-0 z-10 ${mobile ? 'overflow-x-auto scrollbar-none' : ''}`}
+        initial="hidden"
+        animate="visible"
+        variants={{
+          visible: { transition: { staggerChildren: 0.05 } }
+        }}
+      >
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           return (
-            <button
+            <motion.button
+              variants={{
+                hidden: { opacity: 0, y: -8 },
+                visible: { opacity: 1, y: 0 }
+              }}
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex flex-col items-center gap-0.5 py-3 border-none bg-transparent cursor-pointer font-medium transition-all duration-200 relative whitespace-nowrap
@@ -53,10 +64,10 @@ export default function WizardTabs({ mobile }) {
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
-            </button>
+            </motion.button>
           );
         })}
-      </div>
+      </motion.div>
 
       <div className="h-0.5 bg-surface-100 w-full relative">
         <div 

@@ -27,9 +27,37 @@ export default function Button({
 
   const classes = `${baseClasses} ${variants[variant]} ${sizes[size]} ${className}`;
 
+  function createRipple(e) {
+    const button = e.currentTarget
+    const ripple = document.createElement('span')
+    const rect = button.getBoundingClientRect()
+    const size = Math.max(rect.width, rect.height)
+    ripple.style.cssText = `
+      position: absolute;
+      width: ${size}px;
+      height: ${size}px;
+      left: ${e.clientX - rect.left - size/2}px;
+      top: ${e.clientY - rect.top - size/2}px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: scale(0);
+      animation: ripple-expand 0.5s ease-out forwards;
+      pointer-events: none;
+    `
+    button.style.position = 'relative'
+    button.style.overflow = 'hidden'
+    button.appendChild(ripple)
+    setTimeout(() => ripple.remove(), 500)
+  }
+
+  const handleClick = (e) => {
+    createRipple(e);
+    if (onClick) onClick(e);
+  };
+
   if (disabled) {
     return (
-      <button type={type} className={classes} disabled onClick={onClick}>
+      <button type={type} className={classes} disabled onClick={handleClick}>
         {children}
       </button>
     );
@@ -39,7 +67,7 @@ export default function Button({
     <motion.button
       type={type}
       className={classes}
-      onClick={onClick}
+      onClick={handleClick}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.97 }}
     >

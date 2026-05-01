@@ -67,17 +67,22 @@ export default function PreviewPane({ mobile }) {
       ) : (
         <div className="flex-1 overflow-y-auto flex justify-center py-6 px-4">
           <motion.div
-            className="shadow-paper rounded-sm bg-white origin-top"
-            initial={{ y: 8, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: 'easeOut' }}
-            style={mobile ? {
-              transform: 'scale(0.45)', // user explicitly asked for 0.45
-              transformOrigin: 'top center',
-              marginBottom: '-55%',
-            } : {}}
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
           >
-            <ResumePreview />
+            <motion.div
+              className="shadow-paper rounded-sm bg-white origin-top"
+              initial={{ y: 8, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              style={mobile ? {
+                transform: 'scale(0.45)', // user explicitly asked for 0.45
+                transformOrigin: 'top center',
+                marginBottom: '-55%',
+              } : {}}
+            >
+              <ResumePreview />
+            </motion.div>
           </motion.div>
         </div>
       )}

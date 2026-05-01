@@ -1,4 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import SplashScreen from './components/ui/SplashScreen'
+import CursorGlow from './components/ui/CursorGlow'
+import AnimatedBackground from './components/ui/AnimatedBackground'
 import './index.css'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
@@ -36,6 +40,7 @@ class ErrorBoundary extends React.Component {
 function AppWithAuth({ children }) {
   useAuthListener()
   const loading = useAuthStore(state => state.loading)
+  const [splashDone, setSplashDone] = useState(false)
 
   useEffect(() => {
     const name = useResumeStore.getState().resumeData.contact.fullName;
@@ -77,7 +82,32 @@ function AppWithAuth({ children }) {
     )
   }
 
-  return children
+  return (
+    <>
+      {/* Cursor glow — desktop only */}
+      <div className="hidden md:block">
+        <CursorGlow />
+      </div>
+
+      {/* Animated background */}
+      <AnimatedBackground />
+
+      {/* Splash screen */}
+      {!splashDone && (
+        <SplashScreen onComplete={() => setSplashDone(true)} />
+      )}
+
+      {/* App — fades in after splash */}
+      <motion.div
+        className="relative z-10"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: splashDone ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {children}
+      </motion.div>
+    </>
+  )
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
