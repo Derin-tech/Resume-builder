@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { suggestJobTitles } from '../../lib/claudeApi'
+import { suggestJobTitles } from '../../lib/aiApi'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function JobTitleSuggestions({ value, onSelect }) {

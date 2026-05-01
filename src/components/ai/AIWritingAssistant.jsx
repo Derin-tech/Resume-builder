@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { improveText } from '../../lib/claudeApi'
+import { improveText } from '../../lib/aiApi'
 import { Sparkles as SparklesIcon, Loader2 as Loader2Icon, Check as CheckIcon, X as XIcon, RefreshCw as RefreshCwIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import BeforeAfterSlider from './BeforeAfterSlider'

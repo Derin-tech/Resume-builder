@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { matchJobDescription } from '../../lib/claudeApi'
+import { matchJobDescription } from '../../lib/aiApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { Target as TargetIcon, Loader2 as Loader2Icon, Sparkles as SparklesIcon } from 'lucide-react'
 
