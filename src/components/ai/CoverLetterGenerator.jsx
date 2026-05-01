@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { generateCoverLetter } from '../../lib/aiApi'
+import { generateCoverLetter } from '../../lib/claudeApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { FileTextIcon, Loader2Icon, CopyIcon, CheckIcon, XIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'

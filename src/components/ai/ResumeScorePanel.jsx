@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { scoreResume } from '../../lib/aiApi'
+import { scoreResume } from '../../lib/claudeApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { Loader2 as Loader2Icon, Sparkles as SparklesIcon, TrendingUp as TrendingUpIcon, ShieldCheck as ShieldCheckIcon, RefreshCw as RefreshCwIcon } from 'lucide-react'
 import { motion } from 'framer-motion'

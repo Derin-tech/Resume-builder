@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { parseLinkedInText } from '../../lib/aiApi'
+import { parseLinkedInText } from '../../lib/claudeApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { LinkedinIcon, Loader2Icon, CheckIcon, XIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'

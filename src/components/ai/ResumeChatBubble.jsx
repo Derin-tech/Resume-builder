@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { chatWithResume } from '../../lib/aiApi'
+import { chatWithResume } from '../../lib/claudeApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { MessageCircleIcon, XIcon, SendIcon, Loader2Icon, SparklesIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'

@@ -26,14 +26,15 @@ export const useResumeStore = create((set, get) => ({
 
   setAccentColor: (color) => set({ accentColor: color }),
 
-  updateContact: (field, value) => 
-    set((state) => ({ 
-      ...pushHistory(state),
-      resumeData: { 
-        ...state.resumeData, 
-        contact: { ...state.resumeData.contact, [field]: value } 
-      } 
-    })),
+  updateContact: (field, value) => set(state => ({
+    resumeData: {
+      ...state.resumeData,
+      contact: {
+        ...state.resumeData.contact,
+        [field]: value
+      }
+    }
+  })),
   
   updateSummary: (value) =>
     set((state) => ({
