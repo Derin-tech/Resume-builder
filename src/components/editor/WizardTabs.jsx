@@ -8,6 +8,7 @@ import EducationForm from './EducationForm';
 import SkillsForm from './SkillsForm';
 import ResumeScorePanel from '../ai/ResumeScorePanel';
 import ATSMatcher from '../ai/ATSMatcher';
+import { useResumeStore } from '../../store/useResumeStore';
 
 const TABS = [
   { id: 'contact',    label: 'Contact',    icon: UserIcon },
@@ -19,8 +20,21 @@ const TABS = [
   { id: 'ats',        label: 'ATS',        icon: TargetIcon }
 ];
 
+function getTabCompletion(tabId, resumeData) {
+  const { contact, summary, experience, education, skills } = resumeData;
+  switch (tabId) {
+    case 'contact': return !!(contact.fullName && contact.email && contact.phone);
+    case 'summary': return summary?.trim().length > 50;
+    case 'experience': return experience?.length > 0;
+    case 'education': return education?.length > 0;
+    case 'skills': return skills?.length >= 3;
+    default: return false;
+  }
+}
+
 export default function WizardTabs({ mobile }) {
   const [activeTab, setActiveTab] = useState('contact');
+  const { resumeData } = useResumeStore();
 
   const activeIndex = TABS.findIndex(t => t.id === activeTab);
   const progress = ((activeIndex + 1) / TABS.length) * 100;
@@ -42,6 +56,7 @@ export default function WizardTabs({ mobile }) {
         {TABS.map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
+          const isComplete = getTabCompletion(tab.id, resumeData);
           return (
             <motion.button
               variants={{
@@ -57,6 +72,13 @@ export default function WizardTabs({ mobile }) {
             >
               <Icon size={15} />
               <span>{tab.label}</span>
+              {isComplete && (
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  className="absolute top-1.5 right-1.5 w-2 h-2 bg-green-400 rounded-full"
+                />
+              )}
               {isActive && (
                 <motion.div
                   layoutId="tab-indicator"

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { FileText, User as UserIcon, Loader2 as Loader2Icon, Printer as PrinterIcon } from 'lucide-react';
 import { useResumeStore } from '../../store/useResumeStore';
@@ -7,14 +7,25 @@ import { signOutUser } from '../../lib/firebase';
 import { useAutoSave } from '../../hooks/useAutoSave';
 import AuthModal from '../auth/AuthModal';
 import ExportButton from '../ui/ExportButton';
+import DarkModeToggle from '../ui/DarkModeToggle';
+import { useUIStore } from '../../store/useUIStore';
 
 export default function Header() {
   const { activeTemplate, setTemplate, isSaving, lastSaved } = useResumeStore();
   const { user } = useAuthStore();
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const timeAgo = lastSaved ? (Date.now() - lastSaved < 60000 ? 'just now' : `${Math.floor((Date.now()-lastSaved)/60000)}m ago`) : '';
+  const { darkMode } = useUIStore();
 
   useAutoSave();
+
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [darkMode])
 
   return (
     <motion.header
@@ -49,6 +60,8 @@ export default function Header() {
         <button onClick={() => window.print()} className="flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border border-white/20 text-white hover:bg-white/10 transition-all">
           <PrinterIcon size={14} /> Print
         </button>
+
+        <DarkModeToggle />
 
         <ExportButton />
 

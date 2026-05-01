@@ -4,9 +4,12 @@ import { motion } from 'framer-motion';
 import { FileText as FileTextIcon } from 'lucide-react';
 import ResumePreview from '../preview/ResumePreview';
 import ColorThemePicker from '../ui/ColorThemePicker';
+import ZoomControl from '../ui/ZoomControl';
+import { useUIStore } from '../../store/useUIStore';
 
 export default function PreviewPane({ mobile }) {
   const { resumeData, activeTemplate, setTemplate } = useResumeStore()
+  const { zoomLevel } = useUIStore()
   
   const completionScore = useMemo(() => {
     const { contact, summary, experience, education, skills } = resumeData
@@ -26,13 +29,14 @@ export default function PreviewPane({ mobile }) {
       ${mobile ? 'w-full bg-surface-100' : 'flex-1 bg-surface-100 border-l border-surface-200'}
     `}>
       {/* Toolbar */}
-      <div className="sticky top-0 z-10 bg-surface-100/90 backdrop-blur-sm border-b border-surface-200 px-4 md:px-6 py-2 flex items-center justify-between">
+      <div className="sticky top-0 z-10 bg-surface-100/90 backdrop-blur-sm border-b border-surface-200 px-4 md:px-6 py-2 flex items-center justify-between glass-panel">
         <span className="text-xs font-medium text-surface-400 uppercase tracking-wide">
           {mobile ? 'Resume Preview' : 'Preview'}
         </span>
         
         {!mobile && (
           <div className="flex items-center gap-3">
+            <ZoomControl />
             <div className="inline-flex bg-white border border-surface-200 rounded-lg p-0.5 gap-0.5">
               {['modern', 'classic', 'executive'].map(tpl => (
                 <button key={tpl} onClick={() => setTemplate(tpl)}
@@ -81,7 +85,12 @@ export default function PreviewPane({ mobile }) {
                 marginBottom: '-55%',
               } : {}}
             >
-              <ResumePreview />
+              <div
+                className="zoom-transition paper-curl"
+                style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top center' }}
+              >
+                <ResumePreview />
+              </div>
             </motion.div>
           </motion.div>
         </div>

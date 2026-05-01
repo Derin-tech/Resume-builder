@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useResumeStore } from '../../store/useResumeStore'
 import { exportToPDF } from '../../lib/pdfExport'
 import { Download as DownloadIcon, Loader2 as Loader2Icon, Check as CheckIcon } from 'lucide-react'
+import { fireConfetti } from './ConfettiEffect'
 
 export default function ExportButton({ className }) {
   const [status, setStatus] = useState('idle')
@@ -14,6 +15,7 @@ export default function ExportButton({ className }) {
     setStatus('loading')
     try {
       await exportToPDF({ ...resumeData, accentColor }, activeTemplate)
+      fireConfetti()
       setStatus('done')
       setTimeout(() => setStatus('idle'), 2500)
     } catch (e) {

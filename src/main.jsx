@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import SplashScreen from './components/ui/SplashScreen'
-import CursorGlow from './components/ui/CursorGlow'
+import CustomCursor from './components/ui/CustomCursor'
 import AnimatedBackground from './components/ui/AnimatedBackground'
 import './index.css'
 import ReactDOM from 'react-dom/client'
@@ -86,7 +86,7 @@ function AppWithAuth({ children }) {
     <>
       {/* Cursor glow — desktop only */}
       <div className="hidden md:block">
-        <CursorGlow />
+        <CustomCursor />
       </div>
 
       {/* Animated background */}
