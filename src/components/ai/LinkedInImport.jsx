@@ -15,7 +15,11 @@ const LinkedinIcon = ({ size = 24, className = "" }) => (
 export default function LinkedInImport() {
   const [open, setOpen] = useState(false)
   const [file, setFile] = useState(null)
+  const [status, setStatus] = useState('idle')
   const fileInputRef = useRef(null)
+
+  const resumeData = useResumeStore(state => state.resumeData)
+  const loadFullResume = useResumeStore(state => state.loadFullResume)
 
   async function handleImport() {
     if (!file) return
