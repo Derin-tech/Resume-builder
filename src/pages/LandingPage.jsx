@@ -23,35 +23,10 @@ const STATS = [
 
 export default function LandingPage() {
   const navigate = useNavigate()
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 })
-  const [cursorRingPos, setCursorRingPos] = useState({ x: -100, y: -100 })
   const [hovering, setHovering] = useState(false)
-  const ringRef = useRef({ x: -100, y: -100 })
-  const animRef = useRef()
   const { scrollYProgress } = useScroll()
   const heroY = useTransform(scrollYProgress, [0, 1], [0, -200])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0])
-
-  // Smooth cursor
-  useEffect(() => {
-    const handleMove = (e) => {
-      setCursorPos({ x: e.clientX, y: e.clientY })
-    }
-    window.addEventListener('mousemove', handleMove)
-
-    function animateRing() {
-      ringRef.current.x += (cursorPos.x - ringRef.current.x) * 0.12
-      ringRef.current.y += (cursorPos.y - ringRef.current.y) * 0.12
-      setCursorRingPos({ ...ringRef.current })
-      animRef.current = requestAnimationFrame(animateRing)
-    }
-    animRef.current = requestAnimationFrame(animateRing)
-
-    return () => {
-      window.removeEventListener('mousemove', handleMove)
-      cancelAnimationFrame(animRef.current)
-    }
-  }, [cursorPos])
 
   // Intersection observer for fade-up sections
   useEffect(() => {
@@ -67,20 +42,6 @@ export default function LandingPage() {
 
   return (
     <div className="landing">
-      {/* Custom cursor */}
-      <div
-        className="landing-cursor-dot"
-        style={{ left: cursorPos.x, top: cursorPos.y, transform: `translate(-50%, -50%) scale(${hovering ? 2 : 1})` }}
-      />
-      <div
-        className="landing-cursor-ring"
-        style={{
-          left: cursorRingPos.x,
-          top: cursorRingPos.y,
-          transform: `translate(-50%, -50%) scale(${hovering ? 1.5 : 1})`,
-          borderColor: hovering ? 'rgba(167,139,250,0.8)' : 'rgba(167,139,250,0.4)',
-        }}
-      />
 
       {/* Particles */}
       <ParticleField />

@@ -11,7 +11,7 @@ export default function ParticleField() {
     canvas.width = window.innerWidth
     canvas.height = window.innerHeight
 
-    const particles = Array.from({ length: 120 }, () => ({
+    const particles = Array.from({ length: 350 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
       vx: (Math.random() - 0.5) * 0.3,
