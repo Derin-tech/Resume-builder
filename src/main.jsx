@@ -5,9 +5,10 @@ import CustomCursor from './components/ui/CustomCursor'
 import AnimatedBackground from './components/ui/AnimatedBackground'
 import './index.css'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import BuilderPage from './pages/BuilderPage'
 import LoginPage from './pages/LoginPage'
+import LandingPage from './pages/LandingPage'
 import { useAuthListener } from './hooks/useAuthListener'
 import { useResumeStore } from './store/useResumeStore'
 import { useAuthStore } from './store/useAuthStore'
@@ -41,6 +42,8 @@ function AppWithAuth({ children }) {
   useAuthListener()
   const loading = useAuthStore(state => state.loading)
   const [splashDone, setSplashDone] = useState(false)
+  const location = useLocation()
+  const isBuilder = location.pathname === '/builder'
 
   useEffect(() => {
     const name = useResumeStore.getState().resumeData.contact.fullName;
@@ -93,7 +96,7 @@ function AppWithAuth({ children }) {
       <AnimatedBackground />
 
       {/* Splash screen */}
-      {!splashDone && (
+      {isBuilder && !splashDone && (
         <SplashScreen onComplete={() => setSplashDone(true)} />
       )}
 
@@ -101,7 +104,7 @@ function AppWithAuth({ children }) {
       <motion.div
         className="relative z-10"
         initial={{ opacity: 0 }}
-        animate={{ opacity: splashDone ? 1 : 0 }}
+        animate={{ opacity: (!isBuilder || splashDone) ? 1 : 0 }}
         transition={{ duration: 0.5 }}
       >
         {children}
@@ -116,7 +119,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <AppWithAuth>
           <Routes>
-            <Route path="/" element={<BuilderPage />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/builder" element={<BuilderPage />} />
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </AppWithAuth>
