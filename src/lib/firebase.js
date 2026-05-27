@@ -30,6 +30,6 @@ export const signInWithGoogle = () => auth ? signInWithPopup(auth, googleProvide
 export const signInWithEmail = (email, password) => auth ? signInWithEmailAndPassword(auth, email, password) : Promise.reject("Firebase not initialized")
 export const signUpWithEmail = (email, password) => auth ? createUserWithEmailAndPassword(auth, email, password) : Promise.reject("Firebase not initialized")
 export const signOutUser = () => auth ? signOut(auth) : Promise.reject("Firebase not initialized")
-export const onAuthChange = (callback) => auth ? onAuthStateChanged(auth, callback) : () => {}
+export const onAuthChange = (callback) => { if (auth) return onAuthStateChanged(auth, callback); callback(null); return () => {}; }
 
 export { auth, db }
