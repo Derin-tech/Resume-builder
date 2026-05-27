@@ -7,7 +7,7 @@ async function callGemini(parts) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       contents: [{ parts: Array.isArray(parts) ? parts : [{ text: parts }] }],
-      generationConfig: { temperature: 0.7, maxOutputTokens: 1500 }
+      generationConfig: { temperature: 0.7, maxOutputTokens: 8192 }
     })
   })
   const data = await response.json()
@@ -131,8 +131,14 @@ Return ONLY valid JSON:
   ];
 
   const raw = await callGemini(parts);
-  try { return JSON.parse(raw) }
-  catch { return null }
+  try { 
+    return JSON.parse(raw) 
+  }
+  catch (e) { 
+    console.error("LinkedIn PDF JSON Parse Error:", e);
+    console.error("Raw text from Gemini:", raw);
+    return null 
+  }
 }
 
 export async function generateCoverLetter(resumeData, jobDescription) {
