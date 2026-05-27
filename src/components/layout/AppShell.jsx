@@ -76,7 +76,6 @@ export default function AppShell() {
             </button>
           </div>
         </div>
-          </div>
         </div>
       </div>
     </div>
