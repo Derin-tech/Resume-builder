@@ -11,16 +11,25 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 }
 
-const app = initializeApp(firebaseConfig)
-const auth = getAuth(app)
-const db = getFirestore(app)
+let app, auth, db, googleProvider
 
-const googleProvider = new GoogleAuthProvider()
+if (!firebaseConfig.apiKey) {
+  console.error("Firebase API Key is missing! Please set VITE_FIREBASE_API_KEY environment variable.");
+} else {
+  try {
+    app = initializeApp(firebaseConfig)
+    auth = getAuth(app)
+    db = getFirestore(app)
+    googleProvider = new GoogleAuthProvider()
+  } catch (error) {
+    console.error("Firebase initialization error:", error);
+  }
+}
 
-export const signInWithGoogle = () => signInWithPopup(auth, googleProvider)
-export const signInWithEmail = (email, password) => signInWithEmailAndPassword(auth, email, password)
-export const signUpWithEmail = (email, password) => createUserWithEmailAndPassword(auth, email, password)
-export const signOutUser = () => signOut(auth)
-export const onAuthChange = (callback) => onAuthStateChanged(auth, callback)
+export const signInWithGoogle = () => auth ? signInWithPopup(auth, googleProvider) : Promise.reject("Firebase not initialized")
+export const signInWithEmail = (email, password) => auth ? signInWithEmailAndPassword(auth, email, password) : Promise.reject("Firebase not initialized")
+export const signUpWithEmail = (email, password) => auth ? createUserWithEmailAndPassword(auth, email, password) : Promise.reject("Firebase not initialized")
+export const signOutUser = () => auth ? signOut(auth) : Promise.reject("Firebase not initialized")
+export const onAuthChange = (callback) => auth ? onAuthStateChanged(auth, callback) : () => {}
 
 export { auth, db }
