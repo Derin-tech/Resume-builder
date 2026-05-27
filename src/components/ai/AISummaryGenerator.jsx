@@ -35,7 +35,7 @@ export default function AISummaryGenerator({ onAccept }) {
       {status === 'loading' && (
         <div className="flex items-center justify-center gap-2 py-3 text-xs text-surface-500">
           <Loader2Icon size={14} className="animate-spin text-brand-500" />
-          Claude is writing your summary...
+          Gemini is writing your summary...
         </div>
       )}
 

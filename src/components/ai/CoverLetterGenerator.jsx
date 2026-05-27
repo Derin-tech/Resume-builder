@@ -63,7 +63,7 @@ export default function CoverLetterGenerator() {
               <div className="flex-1 overflow-y-auto p-5 space-y-4">
                 {status !== 'done' ? (
                   <>
-                    <p className="text-xs text-surface-500">Paste the job description and Claude will write a tailored cover letter based on your resume.</p>
+                    <p className="text-xs text-surface-500">Paste the job description and Gemini will write a tailored cover letter based on your resume.</p>
                     <textarea
                       value={jobDesc}
                       onChange={e => setJobDesc(e.target.value)}

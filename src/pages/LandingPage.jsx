@@ -6,7 +6,7 @@ import PenWriter from '../components/landing/PenWriter'
 import '../landing.css'
 
 const FEATURES = [
-  { icon: '✦', title: 'AI Writing Assistant', desc: 'Claude rewrites your bullet points to be stronger, more impactful and ATS-optimized instantly.' },
+  { icon: '✦', title: 'AI Writing Assistant', desc: 'Gemini rewrites your bullet points to be stronger, more impactful and ATS-optimized instantly.' },
   { icon: '◎', title: 'Live Preview', desc: 'See your resume update in real time as you type. Switch between 3 professional templates.' },
   { icon: '⬡', title: 'ATS Job Matcher', desc: 'Paste any job description and get a match score with the exact keywords you need to add.' },
   { icon: '↯', title: 'One-Click PDF', desc: 'Export a pixel-perfect A4 PDF with real selectable text that passes any ATS scanner.' },

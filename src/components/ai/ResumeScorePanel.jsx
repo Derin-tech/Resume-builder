@@ -63,7 +63,7 @@ export default function ResumeScorePanel() {
       {loading && (
         <div className="flex flex-col items-center py-10 gap-3">
           <Loader2Icon size={28} className="animate-spin text-brand-500" />
-          <p className="text-sm text-surface-500">Claude is reading your resume...</p>
+          <p className="text-sm text-surface-500">Gemini is reading your resume...</p>
           <p className="text-xs text-surface-400">This takes about 5 seconds</p>
         </div>
       )}

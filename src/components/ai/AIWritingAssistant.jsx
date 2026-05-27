@@ -45,7 +45,7 @@ export default function AIWritingAssistant({ originalText, context, onAccept, on
       {status === 'loading' && (
         <div className="flex items-center gap-2 py-4 justify-center">
           <Loader2Icon size={16} className="animate-spin text-brand-500" />
-          <span className="text-xs text-surface-500">Improving your text with Claude...</span>
+          <span className="text-xs text-surface-500">Improving your text with Gemini...</span>
         </div>
       )}
 
