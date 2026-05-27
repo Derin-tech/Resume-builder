@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'
-import { parseLinkedInPDF } from '../../lib/claudeApi'
+import { parseLinkedInPDF } from '../../lib/geminiApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { Loader2 as Loader2Icon, Check as CheckIcon, X as XIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'

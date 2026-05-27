@@ -11,6 +11,10 @@ async function callGemini(parts) {
     })
   })
   const data = await response.json()
+  if (data.error) {
+    console.error("Gemini API Error:", data.error.message);
+    throw new Error(data.error.message);
+  }
   const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '{}'
   return raw.replace(/```json|```/g, '').trim()
 }

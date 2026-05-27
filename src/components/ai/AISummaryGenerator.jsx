@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { generateSummary } from '../../lib/claudeApi'
+import { generateSummary } from '../../lib/geminiApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { SparklesIcon, Loader2Icon, CheckIcon, RefreshCwIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
