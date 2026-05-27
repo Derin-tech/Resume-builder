@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { parseLinkedInText } from '../../lib/claudeApi'
+import { useState, useRef } from 'react'
+import { parseLinkedInPDF } from '../../lib/claudeApi'
 import { useResumeStore } from '../../store/useResumeStore'
 import { Loader2 as Loader2Icon, Check as CheckIcon, X as XIcon } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -14,33 +14,51 @@ const LinkedinIcon = ({ size = 24, className = "" }) => (
 
 export default function LinkedInImport() {
   const [open, setOpen] = useState(false)
-  const [text, setText] = useState('')
-  const [status, setStatus] = useState('idle')
-  const loadFullResume = useResumeStore(state => state.loadFullResume)
-  const resumeData = useResumeStore(state => state.resumeData)
+  const [file, setFile] = useState(null)
+  const fileInputRef = useRef(null)
 
   async function handleImport() {
-    if (!text.trim()) return
+    if (!file) return
     setStatus('loading')
+    
     try {
-      const parsed = await parseLinkedInText(text)
-      if (parsed) {
-        const merged = {
-          ...resumeData,
-          contact: { ...resumeData.contact, ...parsed.contact },
-          summary: parsed.summary || resumeData.summary,
-          experience: parsed.experience?.length ? parsed.experience.map(e => ({ ...e, id: crypto.randomUUID() })) : resumeData.experience,
-          education: parsed.education?.length ? parsed.education.map(e => ({ ...e, id: crypto.randomUUID() })) : resumeData.education,
-          skills: parsed.skills?.length ? parsed.skills.map(s => ({ ...s, id: crypto.randomUUID() })) : resumeData.skills,
+      const reader = new FileReader()
+      reader.onloadend = async () => {
+        const base64Data = reader.result.split(',')[1] // Extract base64 part
+        
+        try {
+          const parsed = await parseLinkedInPDF(base64Data)
+          if (parsed) {
+            const merged = {
+              ...resumeData,
+              contact: { ...resumeData.contact, ...parsed.contact },
+              summary: parsed.summary || resumeData.summary,
+              experience: parsed.experience?.length ? parsed.experience.map(e => ({ ...e, id: crypto.randomUUID() })) : resumeData.experience,
+              education: parsed.education?.length ? parsed.education.map(e => ({ ...e, id: crypto.randomUUID() })) : resumeData.education,
+              skills: parsed.skills?.length ? parsed.skills.map(s => ({ ...s, id: crypto.randomUUID() })) : resumeData.skills,
+            }
+            loadFullResume(merged)
+            setStatus('done')
+            setTimeout(() => { setOpen(false); setStatus('idle'); setFile(null) }, 1500)
+          } else {
+            setStatus('error')
+          }
+        } catch {
+          setStatus('error')
         }
-        loadFullResume(merged)
-        setStatus('done')
-        setTimeout(() => { setOpen(false); setStatus('idle'); setText('') }, 1500)
-      } else {
-        setStatus('error')
       }
+      reader.readAsDataURL(file)
     } catch {
       setStatus('error')
+    }
+  }
+
+  const handleFileChange = (e) => {
+    const selected = e.target.files?.[0]
+    if (selected && selected.type === 'application/pdf') {
+      setFile(selected)
+    } else {
+      alert("Please upload a valid PDF file.")
     }
   }
 
@@ -80,26 +98,46 @@ export default function LinkedInImport() {
                 </button>
               </div>
 
-              <p className="text-xs text-surface-500 mb-3 leading-relaxed">
-                Go to your LinkedIn profile → click "More" → "Save to PDF", then copy and paste all the text here. Claude will extract your information automatically.
+              <p className="text-sm text-surface-500 mb-6 leading-relaxed">
+                Go to your LinkedIn profile → click <strong>"More"</strong> → <strong>"Save to PDF"</strong>, then upload the PDF document here. We'll extract your information automatically.
               </p>
 
-              <textarea
-                value={text}
-                onChange={e => setText(e.target.value)}
-                placeholder="Paste your LinkedIn profile text here..."
-                rows={8}
-                className="w-full text-xs border border-surface-200 rounded-xl p-3 resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 text-surface-800"
-              />
+              <div 
+                className={`border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center transition-colors cursor-pointer mb-6
+                  ${file ? 'border-brand-500 bg-brand-50' : 'border-surface-300 hover:border-brand-400 hover:bg-surface-50'}`}
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <input 
+                  type="file" 
+                  ref={fileInputRef} 
+                  onChange={handleFileChange} 
+                  accept="application/pdf" 
+                  className="hidden" 
+                />
+                
+                {file ? (
+                  <>
+                    <CheckIcon size={32} className="text-brand-500 mb-2" />
+                    <p className="text-brand-600 font-medium text-center">{file.name}</p>
+                    <p className="text-xs text-brand-400 mt-1">Click to change file</p>
+                  </>
+                ) : (
+                  <>
+                    <LinkedinIcon size={32} className="text-surface-400 mb-2" />
+                    <p className="text-surface-600 font-medium text-center">Click to upload your LinkedIn PDF</p>
+                    <p className="text-xs text-surface-400 mt-1">Accepts .pdf files only</p>
+                  </>
+                )}
+              </div>
 
               <button
                 onClick={handleImport}
-                disabled={status === 'loading' || !text.trim()}
-                className="w-full mt-3 flex items-center justify-center gap-2 bg-[#0077b5] hover:bg-[#006097] disabled:opacity-40 text-white text-sm font-medium py-2.5 rounded-xl transition-colors"
+                disabled={status === 'loading' || !file}
+                className="w-full mt-2 flex items-center justify-center gap-2 bg-[#0077b5] hover:bg-[#006097] disabled:opacity-40 text-white font-medium py-3 rounded-xl transition-all shadow-sm"
               >
-                {status === 'loading' && <Loader2Icon size={14} className="animate-spin" />}
-                {status === 'done' && <CheckIcon size={14} />}
-                {status === 'idle' ? 'Import Profile' : status === 'loading' ? 'Importing...' : status === 'done' ? 'Imported!' : 'Try again'}
+                {status === 'loading' && <Loader2Icon size={18} className="animate-spin" />}
+                {status === 'done' && <CheckIcon size={18} />}
+                {status === 'idle' ? 'Import from PDF' : status === 'loading' ? 'Importing Data...' : status === 'done' ? 'Successfully Imported!' : 'Try again'}
               </button>
             </motion.div>
           </>

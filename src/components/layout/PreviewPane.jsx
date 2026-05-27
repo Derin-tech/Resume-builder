@@ -25,11 +25,11 @@ export default function PreviewPane({ mobile }) {
 
   return (
     <div className={`
-      flex flex-col overflow-hidden h-full
-      ${mobile ? 'w-full bg-surface-100' : 'flex-1 bg-surface-100 border-l border-surface-200'}
+      flex flex-col overflow-hidden h-full glass-card bg-white/70
+      ${mobile ? 'w-full' : 'flex-1'}
     `}>
       {/* Toolbar */}
-      <div className="sticky top-0 z-10 bg-surface-100/90 backdrop-blur-sm border-b border-surface-200 px-4 md:px-6 py-2 flex items-center justify-between glass-panel">
+      <div className="sticky top-0 z-10 bg-white/40 backdrop-blur-md border-b border-surface-200/50 px-4 md:px-6 py-3 flex items-center justify-between rounded-t-2xl">
         <span className="text-xs font-medium text-surface-400 uppercase tracking-wide">
           {mobile ? 'Resume Preview' : 'Preview'}
         </span>
@@ -37,11 +37,11 @@ export default function PreviewPane({ mobile }) {
         {!mobile && (
           <div className="flex items-center gap-3">
             <ZoomControl />
-            <div className="inline-flex bg-white border border-surface-200 rounded-lg p-0.5 gap-0.5">
+            <div className="inline-flex bg-white/60 border border-surface-200/50 rounded-xl p-1 gap-1 shadow-sm">
               {['modern', 'classic', 'executive'].map(tpl => (
                 <button key={tpl} onClick={() => setTemplate(tpl)}
-                  className={`text-xs font-medium px-2.5 py-1 rounded-md transition-all duration-200 capitalize
-                    ${activeTemplate === tpl ? 'bg-brand-500 text-white shadow-sm' : 'text-surface-500 hover:text-surface-700'}`}>
+                  className={`text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-300 capitalize
+                    ${activeTemplate === tpl ? 'bg-indigo-500 text-white shadow-md' : 'text-surface-500 hover:text-surface-800 hover:bg-white/50'}`}>
                   {tpl}
                 </button>
               ))}

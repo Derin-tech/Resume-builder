@@ -28,119 +28,85 @@ export default function SplashScreen({ onComplete }) {
     <AnimatePresence>
       {!showExit ? (
         <motion.div
-          className="fixed inset-0 z-[999] flex flex-col items-center justify-center"
-          style={{
-            background: 'linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%)'
-          }}
-          exit={{ opacity: 0, scale: 1.05 }}
+          className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#f4f5f7] dark:bg-[#0a0a0f]"
+          exit={{ opacity: 0, scale: 1.02 }}
           transition={{ duration: 0.6, ease: 'easeInOut' }}
         >
-          {/* Animated background orbs */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(6)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute rounded-full opacity-20 blur-3xl"
-                style={{
-                  width: `${200 + i * 80}px`,
-                  height: `${200 + i * 80}px`,
-                  background: i % 2 === 0 ? '#4f6ef7' : '#a78bfa',
-                  left: `${10 + i * 15}%`,
-                  top: `${10 + (i % 3) * 25}%`,
-                }}
-                animate={{
-                  x: [0, 30, -20, 0],
-                  y: [0, -30, 20, 0],
-                  scale: [1, 1.1, 0.95, 1],
-                }}
-                transition={{
-                  duration: 4 + i,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: i * 0.3,
-                }}
-              />
-            ))}
+          {/* Animated background orbs for soft lighting */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center">
+            <motion.div
+              className="absolute w-[600px] h-[600px] rounded-full blur-[120px] opacity-20 bg-brand-400"
+              animate={{
+                scale: [1, 1.2, 1],
+                rotate: [0, 90, 0],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+            />
+            <motion.div
+              className="absolute w-[500px] h-[500px] rounded-full blur-[100px] opacity-20 bg-indigo-500 translate-x-20 translate-y-20"
+              animate={{
+                scale: [1, 1.3, 1],
+                rotate: [0, -90, 0],
+              }}
+              transition={{ duration: 12, repeat: Infinity, ease: 'linear' }}
+            />
           </div>
 
-          {/* Particles */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {[...Array(20)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="absolute w-1 h-1 bg-white rounded-full"
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  opacity: Math.random() * 0.5 + 0.1,
-                }}
-                animate={{
-                  y: [0, -20, 0],
-                  opacity: [0.1, 0.6, 0.1],
-                }}
-                transition={{
-                  duration: 2 + Math.random() * 3,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                  ease: 'easeInOut',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Logo icon */}
-          <motion.div
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            transition={{ duration: 0.6, ease: 'backOut' }}
-            className="mb-6"
-          >
-            <div className="w-16 h-16 bg-brand-500 rounded-2xl flex items-center justify-center shadow-float"
-              style={{ boxShadow: '0 0 40px rgba(79,110,247,0.6)' }}>
-              <span className="text-white font-bold text-3xl">R</span>
-            </div>
-          </motion.div>
-
-          {/* Typing text */}
-          <div className="relative">
-            <motion.h1
-              className="text-5xl md:text-7xl font-bold text-white tracking-tight"
-              style={{ fontFamily: 'Inter, sans-serif' }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+          <div className="relative z-10 flex flex-col items-center justify-center">
+            {/* Logo icon */}
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.34, 1.56, 0.64, 1] }}
+              className="mb-8 relative"
             >
-              {displayText}
-              <motion.span
-                className="inline-block w-[3px] h-[1em] bg-brand-400 ml-1 align-middle"
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ duration: 0.8, repeat: Infinity }}
-              />
-            </motion.h1>
-          </div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-brand-400 to-indigo-500 blur-xl opacity-40 rounded-3xl" />
+              <div className="relative w-24 h-24 bg-white/80 dark:bg-black/50 backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-[32px] flex items-center justify-center shadow-[0_8px_32px_rgba(0,0,0,0.05)]">
+                <span className="text-transparent bg-clip-text bg-gradient-to-br from-brand-500 to-indigo-600 font-bold text-5xl" style={{ fontFamily: 'Playfair Display, serif' }}>R</span>
+              </div>
+            </motion.div>
 
-          {/* Tagline */}
-          <AnimatePresence>
-            {showTagline && (
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="mt-4 text-lg text-white/50 font-light tracking-wide"
+            {/* Typing text */}
+            <div className="relative h-16 flex items-center">
+              <motion.h1
+                className="text-4xl md:text-5xl font-bold text-surface-900 tracking-tight"
+                style={{ fontFamily: 'Playfair Display, serif' }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
               >
-                Build resumes that get you hired ✦
-              </motion.p>
-            )}
-          </AnimatePresence>
+                {displayText}
+                <motion.span
+                  className="inline-block w-[2px] h-[0.9em] bg-brand-500 ml-1 align-middle"
+                  animate={{ opacity: [1, 0, 1] }}
+                  transition={{ duration: 0.8, repeat: Infinity }}
+                />
+              </motion.h1>
+            </div>
+
+            {/* Tagline */}
+            <AnimatePresence>
+              {showTagline && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="mt-4 text-base text-surface-500 font-medium tracking-wide uppercase text-sm"
+                >
+                  Preparing your workspace...
+                </motion.p>
+              )}
+            </AnimatePresence>
+          </div>
 
           {/* Loading bar */}
           <motion.div
-            className="absolute bottom-16 left-1/2 -translate-x-1/2 w-48 h-0.5 bg-white/10 rounded-full overflow-hidden"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            className="absolute bottom-12 left-1/2 -translate-x-1/2 w-64 h-1 bg-surface-200/50 rounded-full overflow-hidden backdrop-blur-sm"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.6 }}
           >
             <motion.div
-              className="h-full bg-brand-400 rounded-full"
+              className="h-full bg-gradient-to-r from-brand-400 to-indigo-500 rounded-full"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
               transition={{ duration: 2, ease: 'easeInOut' }}

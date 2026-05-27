@@ -9,19 +9,20 @@ export default function AppShell() {
   const [mobileView, setMobileView] = useState('editor')
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-surface-50">
-      <Header />
+    <div className="flex flex-col h-screen bg-[#f4f5f7] dark:bg-[#0a0a0f] p-4 md:p-6 overflow-hidden">
+      <div className="glass-dashboard flex-1 flex flex-col overflow-hidden relative shadow-2xl">
+        <Header />
 
-      <div className="flex flex-1 overflow-hidden pt-14">
-        
-        {/* DESKTOP: both panes side by side */}
-        <div className="hidden md:flex flex-1 overflow-hidden">
-          <EditorPane />
-          <PreviewPane />
-        </div>
+        <div className="flex flex-1 overflow-hidden p-4 md:p-6 gap-6">
+          
+          {/* DESKTOP: both panes side by side */}
+          <div className="hidden md:flex flex-1 overflow-hidden gap-6">
+            <EditorPane />
+            <PreviewPane />
+          </div>
 
-        {/* MOBILE: one pane at a time */}
-        <div className="flex flex-col flex-1 overflow-hidden md:hidden">
+          {/* MOBILE: one pane at a time */}
+          <div className="flex flex-col flex-1 overflow-hidden md:hidden glass-card">
           <AnimatePresence mode="wait">
             {mobileView === 'editor' ? (
               <motion.div
@@ -73,6 +74,8 @@ export default function AppShell() {
               <EyeIcon size={18} />
               Preview
             </button>
+          </div>
+        </div>
           </div>
         </div>
       </div>

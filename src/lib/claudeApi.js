@@ -1,13 +1,13 @@
 const GEMINI_API_KEY = 'AIzaSyB5EJwUfkH6vv4ThAXfSDyPJea14MZp7dc'
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`
 
-async function callGemini(prompt) {
+async function callGemini(parts) {
   const response = await fetch(GEMINI_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: { temperature: 0.7, maxOutputTokens: 1000 }
+      contents: [{ parts: Array.isArray(parts) ? parts : [{ text: parts }] }],
+      generationConfig: { temperature: 0.7, maxOutputTokens: 1500 }
     })
   })
   const data = await response.json()
@@ -94,7 +94,7 @@ Return ONLY valid JSON: {"titles": ["title1", "title2", "title3", "title4", "tit
 
 export async function parseLinkedInText(text) {
   const raw = await callGemini(`Extract resume information from this LinkedIn profile text.
-
+  
 Text: "${text}"
 
 Return ONLY valid JSON:
@@ -105,6 +105,28 @@ Return ONLY valid JSON:
   "education": [{ "institution": "", "degree": "", "fieldOfStudy": "", "graduationYear": "" }],
   "skills": [{ "name": "" }]
 }`)
+  try { return JSON.parse(raw) }
+  catch { return null }
+}
+
+export async function parseLinkedInPDF(base64Data) {
+  const prompt = `Extract resume information from this LinkedIn profile PDF document.
+
+Return ONLY valid JSON:
+{
+  "contact": { "fullName": "", "email": "", "phone": "", "location": "", "linkedin": "", "website": "" },
+  "summary": "",
+  "experience": [{ "jobTitle": "", "company": "", "location": "", "startDate": "", "endDate": "", "current": false, "description": "" }],
+  "education": [{ "institution": "", "degree": "", "fieldOfStudy": "", "graduationYear": "" }],
+  "skills": [{ "name": "" }]
+}`;
+
+  const parts = [
+    { text: prompt },
+    { inlineData: { mimeType: 'application/pdf', data: base64Data } }
+  ];
+
+  const raw = await callGemini(parts);
   try { return JSON.parse(raw) }
   catch { return null }
 }

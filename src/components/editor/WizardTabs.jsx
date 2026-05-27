@@ -44,78 +44,87 @@ export default function WizardTabs({ mobile }) {
   // Removed renderActiveForm
 
   return (
-    <div className="flex flex-col h-full overflow-hidden">
+    <div className={`flex h-full w-full overflow-hidden ${mobile ? 'flex-col gap-2' : 'gap-6'}`}>
+      {/* Sidebar */}
       <motion.div 
-        className={`flex border-b border-surface-200 bg-white sticky top-0 z-10 ${mobile ? 'overflow-x-auto scrollbar-none' : ''}`}
+        className={`glass-card bg-white/70 flex flex-col justify-between py-6 ${mobile ? 'flex-row w-full overflow-x-auto scrollbar-none px-4 py-3 h-auto rounded-xl' : 'w-20 items-center h-full flex-shrink-0'}`}
         initial="hidden"
         animate="visible"
         variants={{
           visible: { transition: { staggerChildren: 0.05 } }
         }}
       >
-        {TABS.map((tab) => {
-          const Icon = tab.icon;
-          const isActive = activeTab === tab.id;
-          const isComplete = getTabCompletion(tab.id, resumeData);
-          return (
-            <motion.button
-              variants={{
-                hidden: { opacity: 0, y: -8 },
-                visible: { opacity: 1, y: 0 }
-              }}
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`flex flex-col items-center gap-0.5 py-3 border-none bg-transparent cursor-pointer font-medium transition-all duration-200 relative whitespace-nowrap
-                ${mobile ? 'px-4 text-[10px]' : 'flex-1 px-1 text-xs'}
-                ${isActive ? 'text-brand-600' : 'text-surface-400 hover:text-surface-600'}
-              `}
-            >
-              <Icon size={15} />
-              <span>{tab.label}</span>
-              {isComplete && (
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute top-1.5 right-1.5 w-2 h-2 bg-green-400 rounded-full"
-                />
-              )}
-              {isActive && (
-                <motion.div
-                  layoutId="tab-indicator"
-                  className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-500 rounded-full"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                />
-              )}
-            </motion.button>
-          );
-        })}
+        {!mobile && (
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand-400 to-indigo-600 text-white flex items-center justify-center font-bold text-lg mb-8 shadow-[0_4px_12px_rgba(79,110,247,0.4)]">
+            R
+          </div>
+        )}
+
+        <div className={`flex ${mobile ? 'flex-row gap-4' : 'flex-col gap-6'} items-center`}>
+          {TABS.map((tab) => {
+            const Icon = tab.icon;
+            const isActive = activeTab === tab.id;
+            const isComplete = getTabCompletion(tab.id, resumeData);
+            return (
+              <motion.button
+                variants={{
+                  hidden: { opacity: 0, scale: 0.8 },
+                  visible: { opacity: 1, scale: 1 }
+                }}
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`relative flex items-center justify-center transition-all duration-300
+                  ${mobile ? 'w-10 h-10 rounded-full' : 'w-12 h-12 rounded-2xl'}
+                  ${isActive ? 'bg-indigo-500 text-white shadow-[0_4px_15px_rgba(99,102,241,0.5)]' : 'bg-transparent text-surface-400 hover:text-surface-600 hover:bg-surface-100'}
+                `}
+                title={tab.label}
+              >
+                <Icon size={20} strokeWidth={isActive ? 2.5 : 2} />
+                
+                {isComplete && !isActive && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute top-0 right-0 w-3 h-3 bg-green-400 border-2 border-white rounded-full"
+                  />
+                )}
+              </motion.button>
+            );
+          })}
+        </div>
+
+        {!mobile && <div className="mt-auto">{/* Spacer */}</div>}
       </motion.div>
 
-      <div className="h-0.5 bg-surface-100 w-full relative">
-        <div 
-          className="h-full bg-brand-500 transition-all duration-300 absolute top-0 left-0"
-          style={{ width: `${progress}%` }}
-        />
-      </div>
+      {/* Main Content Area */}
+      <div className={`glass-card bg-white/70 flex-1 flex flex-col overflow-hidden ${mobile ? 'rounded-xl border-none' : ''}`}>
+        <div className="h-1 bg-surface-100 w-full relative">
+          <div 
+            className="h-full bg-gradient-to-r from-brand-400 to-indigo-500 transition-all duration-300 absolute top-0 left-0"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
 
-      <div className="flex-1 overflow-y-auto">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={shouldAnimate ? { opacity: 0, x: 12 } : { opacity: 1, x: 0 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={shouldAnimate ? { opacity: 0, x: -12 } : { opacity: 1, x: 0 }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-          >
-            {activeTab === 'contact' && <ContactForm />}
-            {activeTab === 'summary' && <SummaryForm />}
-            {activeTab === 'experience' && <ExperienceForm />}
-            {activeTab === 'education' && <EducationForm />}
-            {activeTab === 'skills' && <SkillsForm />}
-            {activeTab === 'score' && <ResumeScorePanel />}
-            {activeTab === 'ats' && <ATSMatcher />}
-          </motion.div>
-        </AnimatePresence>
+        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              initial={shouldAnimate ? { opacity: 0, y: 12 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={shouldAnimate ? { opacity: 0, y: -12 } : { opacity: 1, y: 0 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
+            >
+              <h2 className="text-2xl font-bold text-surface-900 mb-6">{TABS.find(t => t.id === activeTab)?.label}</h2>
+              {activeTab === 'contact' && <ContactForm />}
+              {activeTab === 'summary' && <SummaryForm />}
+              {activeTab === 'experience' && <ExperienceForm />}
+              {activeTab === 'education' && <EducationForm />}
+              {activeTab === 'skills' && <SkillsForm />}
+              {activeTab === 'score' && <ResumeScorePanel />}
+              {activeTab === 'ats' && <ATSMatcher />}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
