@@ -28,7 +28,8 @@ export default function AuthGate({ children }) {
     try {
       await signInWithGoogle()
     } catch (e) {
-      setError('Google sign-in failed. Please try again.')
+      console.error('Google Auth Error:', e)
+      setError(`Google sign-in failed: ${e.message || 'Please try again.'}`)
     } finally {
       setAuthLoading(false)
     }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FileText, User as UserIcon, Loader2 as Loader2Icon, Printer as PrinterIcon } from 'lucide-react';
+import { FileText, User as UserIcon, Loader2 as Loader2Icon, Printer as PrinterIcon, Shield as ShieldIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useResumeStore } from '../../store/useResumeStore';
 import { useAuthStore } from '../../store/useAuthStore';
 import { signOutUser } from '../../lib/firebase';
@@ -64,6 +65,12 @@ export default function Header() {
         <CoverLetterGenerator />
 
         <ExportButton />
+
+        {user?.email === 'derinjosesanjith@gmail.com' && (
+          <Link to="/admin" className="hidden md:flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-xl border border-brand-200 bg-brand-50 text-brand-700 hover:bg-brand-100 transition-all shadow-sm font-medium">
+            <ShieldIcon size={14} /> Admin
+          </Link>
+        )}
 
         {user ? (
           <div className="flex items-center gap-2 bg-white border border-surface-200 rounded-full py-1 px-1 shadow-sm">
