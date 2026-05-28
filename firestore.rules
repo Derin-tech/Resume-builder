@@ -1,10 +1,12 @@
 rules_version = '2';
-// Deploy these rules in Firebase Console → Firestore → Rules
-// These rules ensure users can only read/write their own resume document
 service cloud.firestore {
   match /databases/{database}/documents {
     match /resumes/{userId} {
+      // Users can read/write their own resume
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Admin can read all resumes
+      allow read: if request.auth != null && request.auth.token.email == 'derinjosesanjith@gmail.com';
     }
   }
 }

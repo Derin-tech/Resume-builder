@@ -9,6 +9,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import BuilderPage from './pages/BuilderPage'
 import LoginPage from './pages/LoginPage'
 import LandingPage from './pages/LandingPage'
+import AdminDashboard from './pages/AdminDashboard'
 import { useAuthListener } from './hooks/useAuthListener'
 import { useResumeStore } from './store/useResumeStore'
 import { useAuthStore } from './store/useAuthStore'
@@ -122,6 +123,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
             <Route path="/" element={<LandingPage />} />
             <Route path="/builder" element={<BuilderPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </AppWithAuth>
       </BrowserRouter>

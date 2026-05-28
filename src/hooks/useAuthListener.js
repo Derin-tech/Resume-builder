@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { onAuthChange } from '../lib/firebase'
 import { useAuthStore } from '../store/useAuthStore'
 import { useResumeStore } from '../store/useResumeStore'
-import { loadResume } from '../lib/firestoreService'
+import { loadResume, initializeResume } from '../lib/firestoreService'
 
 export function useAuthListener() {
   const setUser = useAuthStore(state => state.setUser)
@@ -20,6 +20,10 @@ export function useAuthListener() {
             displayName: firebaseUser.displayName,
             photoURL: firebaseUser.photoURL,
           })
+          
+          // Initialize user record on first sign-in
+          await initializeResume(firebaseUser.uid, firebaseUser.email)
+          
           const result = await loadResume(firebaseUser.uid)
           if (result.success && result.data) {
             loadFullResume(result.data)

@@ -1,10 +1,14 @@
 import { db } from './firebase'
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
 
-export const saveResume = async (uid, resumeData) => {
+export const saveResume = async (uid, resumeData, email) => {
   try {
     const ref = doc(db, 'resumes', uid)
-    await setDoc(ref, { resumeData, updatedAt: serverTimestamp(), ownerEmail: '' }, { merge: true })
+    await setDoc(ref, { 
+      resumeData, 
+      updatedAt: serverTimestamp(), 
+      ownerEmail: email || '' 
+    }, { merge: true })
     return { success: true }
   } catch (error) {
     console.error('Error saving resume:', error)
@@ -38,7 +42,15 @@ export const updateOwnerEmail = async (uid, email) => {
 export const initializeResume = async (uid, email) => {
   try {
     const ref = doc(db, 'resumes', uid)
-    await setDoc(ref, { createdAt: serverTimestamp(), updatedAt: serverTimestamp(), ownerEmail: email, resumeData: null }, { merge: true })
+    const snap = await getDoc(ref)
+    if (!snap.exists()) {
+      await setDoc(ref, { 
+        resumeData: null,
+        createdAt: serverTimestamp(), 
+        updatedAt: serverTimestamp(), 
+        ownerEmail: email || '' 
+      })
+    }
   } catch (error) {
     console.error('Error initializing resume:', error)
   }

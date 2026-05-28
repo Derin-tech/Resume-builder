@@ -23,7 +23,7 @@ export function useAutoSave() {
     setIsSaving(true)
 
     timerRef.current = setTimeout(async () => {
-      const result = await saveResume(user.uid, resumeData)
+      const result = await saveResume(user.uid, resumeData, user.email)
       if (result.success) {
         setIsSaving(false)
       } else {
