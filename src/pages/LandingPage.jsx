@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import Antigravity from '../components/landing/Antigravity'
+import SplashCursor from '../components/landing/SplashCursor'
 import PenWriter from '../components/landing/PenWriter'
 import '../landing.css'
 
@@ -43,26 +43,8 @@ export default function LandingPage() {
   return (
     <div className="landing">
 
-      {/* Antigravity Background */}
-      <div className="fixed inset-0 z-0 w-full h-full" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh' }}>
-        <Antigravity
-          count={500}
-          magnetRadius={8}
-          ringRadius={8}
-          waveSpeed={0.5}
-          waveAmplitude={1.5}
-          particleSize={2.5}
-          lerpSpeed={0.08}
-          color={'#a78bfa'}
-          autoAnimate={true}
-          particleVariance={1.5}
-          rotationSpeed={0.5}
-          depthFactor={1}
-          pulseSpeed={3}
-          particleShape="capsule"
-          fieldStrength={8}
-        />
-      </div>
+      {/* SplashCursor Background */}
+      <SplashCursor />
 
       {/* NAVBAR */}
       <motion.nav
