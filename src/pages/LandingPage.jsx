@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion'
-import ParticleField from '../components/landing/ParticleField'
+import Antigravity from '../components/landing/Antigravity'
 import PenWriter from '../components/landing/PenWriter'
 import '../landing.css'
 
@@ -43,13 +43,26 @@ export default function LandingPage() {
   return (
     <div className="landing">
 
-      {/* Particles */}
-      <ParticleField />
-
-      {/* Background orbs */}
-      <div className="orb w-96 h-96 top-0 left-1/4 opacity-20" style={{ background: '#4f6ef7' }} />
-      <div className="orb w-80 h-80 top-20 right-1/4 opacity-15" style={{ background: '#a78bfa' }} />
-      <div className="orb w-64 h-64 bottom-1/3 left-1/3 opacity-10" style={{ background: '#06b6d4' }} />
+      {/* Antigravity Background */}
+      <div className="fixed inset-0 z-0 w-full h-full" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh' }}>
+        <Antigravity
+          count={500}
+          magnetRadius={8}
+          ringRadius={8}
+          waveSpeed={0.5}
+          waveAmplitude={1.5}
+          particleSize={2.5}
+          lerpSpeed={0.08}
+          color={'#a78bfa'}
+          autoAnimate={true}
+          particleVariance={1.5}
+          rotationSpeed={0.5}
+          depthFactor={1}
+          pulseSpeed={3}
+          particleShape="capsule"
+          fieldStrength={8}
+        />
+      </div>
 
       {/* NAVBAR */}
       <motion.nav
@@ -220,8 +233,7 @@ export default function LandingPage() {
 
       {/* CTA SECTION */}
       <section className="relative z-10 py-32 px-8 text-center">
-        <div className="orb w-96 h-96 opacity-20 left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 absolute"
-          style={{ background: '#4f6ef7' }} />
+
 
         <motion.div
           initial={{ opacity: 0, y: 30 }}

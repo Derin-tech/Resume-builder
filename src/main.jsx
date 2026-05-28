@@ -92,8 +92,8 @@ function AppWithAuth({ children }) {
         <CustomCursor />
       </div>
 
-      {/* Animated background */}
-      <AnimatedBackground />
+      {/* Animated background (Disabled in favor of Landing Page Antigravity) */}
+      {/* <AnimatedBackground /> */}
 
       {/* Splash screen */}
       {isBuilder && !splashDone && (
